@@ -4,6 +4,10 @@ import { Shield, Brain, FileSearch, BarChart3, CheckCircle, Lock, Users, Sparkle
 import HeroScene from "@/components/HeroScene";
 import ScrollReveal from "@/components/ScrollReveal";
 import Navbar from "@/components/Navbar";
+import hammerImg from "@/assets/hammer.jpg";
+import termsImg from "@/assets/terms.jpg";
+import legalImg from "@/assets/legal.jpg";
+import legalVideo from "@/assets/legal-video.mp4";
 
 const features = [
   { icon: Brain, title: "AI Case Analysis", desc: "Multi-agent reasoning breaks down your situation into structured legal insights." },
@@ -107,6 +111,54 @@ const Landing = () => {
                   {a}
                 </motion.span>
               ))}
+            </div>
+          </ScrollReveal>
+        </div>
+      </section>
+
+      {/* Visual Gallery */}
+      <section className="py-20 px-6">
+        <div className="max-w-6xl mx-auto">
+          <ScrollReveal>
+            <div className="text-center mb-12">
+              <p className="text-sm text-primary uppercase tracking-widest mb-3">Justice in Focus</p>
+              <h2 className="text-3xl md:text-5xl font-display font-bold text-foreground">
+                Know Your Rights
+              </h2>
+            </div>
+          </ScrollReveal>
+
+          <div className="grid md:grid-cols-3 gap-6 mb-8">
+            {[
+              { src: hammerImg, alt: "Gavel and law books representing legal justice" },
+              { src: termsImg, alt: "Terms of service document on typewriter" },
+              { src: legalImg, alt: "Legal vs illegal concept" },
+            ].map((img, i) => (
+              <ScrollReveal key={i} delay={i * 0.15}>
+                <div className="glass-card overflow-hidden group">
+                  <div className="aspect-[4/3] overflow-hidden">
+                    <img
+                      src={img.src}
+                      alt={img.alt}
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      loading="lazy"
+                    />
+                  </div>
+                </div>
+              </ScrollReveal>
+            ))}
+          </div>
+
+          <ScrollReveal delay={0.2}>
+            <div className="glass-card overflow-hidden">
+              <video
+                src={legalVideo}
+                autoPlay
+                muted
+                loop
+                playsInline
+                className="w-full aspect-video object-cover"
+              />
             </div>
           </ScrollReveal>
         </div>
