@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowRight, Shield } from "lucide-react";
 import Navbar from "@/components/Navbar";
+import VoiceAgent from "@/components/VoiceAgent";
 
 const Analyze = () => {
   const navigate = useNavigate();
@@ -47,9 +48,12 @@ const Analyze = () => {
           >
             <div className="glass-card p-6 space-y-5">
               <div>
-                <label className="block text-sm font-medium text-foreground mb-2">
-                  What happened? <span className="text-destructive">*</span>
-                </label>
+                <div className="flex items-center justify-between mb-2">
+                  <label className="block text-sm font-medium text-foreground">
+                    What happened? <span className="text-destructive">*</span>
+                  </label>
+                  <VoiceAgent onTranscript={(text) => setSituation((prev) => prev + " " + text)} />
+                </div>
                 <textarea
                   value={situation}
                   onChange={(e) => setSituation(e.target.value)}
@@ -85,7 +89,7 @@ const Analyze = () => {
                 <input
                   value={loss}
                   onChange={(e) => setLoss(e.target.value)}
-                  placeholder="$0.00"
+                  placeholder="₹0.00"
                   className="w-full rounded-lg bg-muted/50 border border-border px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary/50 transition-all"
                 />
               </div>

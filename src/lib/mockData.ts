@@ -21,7 +21,7 @@ export const mockResult: CaseResult = {
   risks: {
     financial: {
       level: "medium",
-      description: "Estimated legal costs of $3,000–$8,000. Potential recovery of $15,000 in unpaid severance.",
+      description: "Estimated legal costs of ₹2,50,000–₹6,50,000. Potential recovery of ₹12,50,000 in unpaid severance.",
     },
     time: {
       level: "low",
