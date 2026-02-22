@@ -14,7 +14,96 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      analyses: {
+        Row: {
+          clerk_summary: string | null
+          confidence_level: string | null
+          created_at: string
+          devil_analysis: string | null
+          evidence_communication: boolean
+          evidence_contract: boolean
+          evidence_payment: boolean
+          evidence_strength_score: number | null
+          financial_loss: string | null
+          id: string
+          legal_strength_score: number | null
+          location: string | null
+          opponent_type: string | null
+          recommendation: string | null
+          risk_level_score: number | null
+          strategist_output: string | null
+          user_id: string
+          user_query: string
+          viability_score: number | null
+        }
+        Insert: {
+          clerk_summary?: string | null
+          confidence_level?: string | null
+          created_at?: string
+          devil_analysis?: string | null
+          evidence_communication?: boolean
+          evidence_contract?: boolean
+          evidence_payment?: boolean
+          evidence_strength_score?: number | null
+          financial_loss?: string | null
+          id?: string
+          legal_strength_score?: number | null
+          location?: string | null
+          opponent_type?: string | null
+          recommendation?: string | null
+          risk_level_score?: number | null
+          strategist_output?: string | null
+          user_id: string
+          user_query: string
+          viability_score?: number | null
+        }
+        Update: {
+          clerk_summary?: string | null
+          confidence_level?: string | null
+          created_at?: string
+          devil_analysis?: string | null
+          evidence_communication?: boolean
+          evidence_contract?: boolean
+          evidence_payment?: boolean
+          evidence_strength_score?: number | null
+          financial_loss?: string | null
+          id?: string
+          legal_strength_score?: number | null
+          location?: string | null
+          opponent_type?: string | null
+          recommendation?: string | null
+          risk_level_score?: number | null
+          strategist_output?: string | null
+          user_id?: string
+          user_query?: string
+          viability_score?: number | null
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          id: string
+          name: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          name?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          name?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
