@@ -14,12 +14,13 @@ const tags = [
 
 const Marquee = () => {
   return (
-    <div className="py-6 border-y border-border overflow-hidden">
+    <div className="py-6 border-y border-border overflow-hidden bg-accent/30">
       <div className="flex animate-marquee whitespace-nowrap">
         {[...tags, ...tags].map((tag, i) => (
           <span
             key={i}
-            className="mx-3 px-4 py-1.5 rounded-full border border-border text-xs text-muted-foreground shrink-0"
+            className="mx-3 px-4 py-1.5 rounded-full text-xs shrink-0 font-medium"
+            style={{ backgroundColor: "hsl(40 50% 90%)", color: "hsl(42 50% 25%)" }}
           >
             {tag}
           </span>

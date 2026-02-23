@@ -1,19 +1,19 @@
-// Mock multi-agent responses (Clerk, Devil's Advocate, Strategist)
+// Mock multi-agent responses (Clara, Lexor, Verdicta)
 
-export interface ClerkOutput {
+export interface ClaraOutput {
   summary: string;
   keyFacts: string[];
   missingInformation: string[];
 }
 
-export interface DevilOutput {
+export interface LexorOutput {
   riskFactors: string[];
   contradictions: string[];
   loopholes: string[];
   riskCategories: { financial: string; time: string; emotional: string; evidence: string };
 }
 
-export interface StrategistOutput {
+export interface VerdictaOutput {
   legalStrengthScore: number;
   riskLevelScore: number;
   evidenceStrengthScore: number;
@@ -21,8 +21,13 @@ export interface StrategistOutput {
   reasoning: string;
 }
 
-// Simulate Clerk agent
-export function runClerk(query: string, location: string, opponent: string): ClerkOutput {
+// Keep old names as aliases for backward compat
+export type ClerkOutput = ClaraOutput;
+export type DevilOutput = LexorOutput;
+export type StrategistOutput = VerdictaOutput;
+
+// Clara — Case Organizer
+export function runClara(query: string, location: string, opponent: string): ClaraOutput {
   const words = query.split(/\s+/).length;
   const hasContract = /contract|agreement|signed/i.test(query);
   const hasPayment = /pay|money|salary|amount|₹/i.test(query);
@@ -46,12 +51,12 @@ export function runClerk(query: string, location: string, opponent: string): Cle
   };
 }
 
-// Simulate Devil's Advocate agent
-export function runDevil(query: string, clerk: ClerkOutput): DevilOutput {
+// Lexor — Risk Analyzer
+export function runLexor(query: string, clara: ClaraOutput): LexorOutput {
   const contradictions: string[] = [];
   const loopholes: string[] = [];
   
-  if (clerk.missingInformation.length > 3) {
+  if (clara.missingInformation.length > 3) {
     contradictions.push("Significant gaps in the narrative may weaken the case");
   }
   if (!/date|when|timeline/i.test(query)) {
@@ -70,7 +75,7 @@ export function runDevil(query: string, clerk: ClerkOutput): DevilOutput {
     contradictions,
     loopholes,
     riskCategories: {
-      financial: clerk.missingInformation.length > 2 ? "high" : "medium",
+      financial: clara.missingInformation.length > 2 ? "high" : "medium",
       time: "medium",
       emotional: "medium",
       evidence: contradictions.length > 0 ? "high" : "low",
@@ -78,21 +83,20 @@ export function runDevil(query: string, clerk: ClerkOutput): DevilOutput {
   };
 }
 
-// Simulate Strategist agent — outputs scores ONLY, no viability
-export function runStrategist(
-  clerk: ClerkOutput,
-  devil: DevilOutput,
+// Verdicta — Decision Scorer (outputs scores ONLY, no viability)
+export function runVerdicta(
+  clara: ClaraOutput,
+  lexor: LexorOutput,
   hasContract: boolean,
   hasPayment: boolean,
   hasCommunication: boolean
-): StrategistOutput {
+): VerdictaOutput {
   const evidenceCount = [hasContract, hasPayment, hasCommunication].filter(Boolean).length;
-  const missingCount = clerk.missingInformation.length;
-  const contradictionCount = devil.contradictions.length;
+  const missingCount = clara.missingInformation.length;
+  const contradictionCount = lexor.contradictions.length;
 
-  // Score based on actual inputs — NOT hardcoded
-  let legalStrength = 40 + (evidenceCount * 12) - (missingCount * 5) + (clerk.keyFacts.length * 3);
-  let riskLevel = 30 + (contradictionCount * 15) + (devil.riskFactors.length * 8) - (evidenceCount * 10);
+  let legalStrength = 40 + (evidenceCount * 12) - (missingCount * 5) + (clara.keyFacts.length * 3);
+  let riskLevel = 30 + (contradictionCount * 15) + (lexor.riskFactors.length * 8) - (evidenceCount * 10);
   let evidenceStrength = evidenceCount * 30 - (contradictionCount * 10) - (Math.max(0, missingCount - 2) * 10);
 
   legalStrength = Math.max(0, Math.min(100, legalStrength));
@@ -109,6 +113,11 @@ export function runStrategist(
     riskLevelScore: riskLevel,
     evidenceStrengthScore: evidenceStrength,
     confidenceLevel: confidence,
-    reasoning: `Based on the analysis: Legal position has ${legalStrength > 60 ? "strong" : legalStrength > 40 ? "moderate" : "weak"} foundations. ${evidenceCount} of 3 key evidence types are available. ${devil.riskFactors.length} risk factors identified. ${contradictionCount > 0 ? `${contradictionCount} contradiction(s) weaken the case.` : "No major contradictions found."} ${clerk.missingInformation.length > 2 ? "Several information gaps should be addressed." : "Key information is mostly present."}`,
+    reasoning: `Based on the analysis: Legal position has ${legalStrength > 60 ? "strong" : legalStrength > 40 ? "moderate" : "weak"} foundations. ${evidenceCount} of 3 key evidence types are available. ${lexor.riskFactors.length} risk factors identified. ${contradictionCount > 0 ? `${contradictionCount} contradiction(s) weaken the case.` : "No major contradictions found."} ${clara.missingInformation.length > 2 ? "Several information gaps should be addressed." : "Key information is mostly present."}`,
   };
 }
+
+// Legacy aliases
+export const runClerk = runClara;
+export const runDevil = runLexor;
+export const runStrategist = runVerdicta;

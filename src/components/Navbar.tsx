@@ -8,10 +8,10 @@ const Navbar = () => {
   const isLanding = location.pathname === "/";
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur border-b border-border">
+    <nav className="fixed top-0 left-0 right-0 z-50 backdrop-blur-md border-b" style={{ backgroundColor: "hsla(40,20%,98%,0.92)", borderColor: "hsl(37,18%,89%)" }}>
       <div className="max-w-7xl mx-auto px-6 h-14 flex items-center justify-between">
         <Link to="/" className="flex items-center gap-2">
-          <div className="w-7 h-7 rounded-md bg-primary flex items-center justify-center">
+          <div className="w-7 h-7 rounded-lg bg-primary flex items-center justify-center">
             <Shield className="w-3.5 h-3.5 text-primary-foreground" />
           </div>
           <span className="text-sm font-semibold text-foreground tracking-tight">ArguMind</span>
