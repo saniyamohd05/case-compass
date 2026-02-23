@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { DollarSign, Clock, Heart, FileCheck, ArrowRight, CheckCircle, ChevronRight, AlertTriangle, TrendingUp, TrendingDown } from "lucide-react";
+import { DollarSign, Clock, Heart, FileCheck, ArrowRight, CheckCircle, ChevronRight, AlertTriangle, TrendingUp, TrendingDown, Handshake, FileText, MessageSquare, Scale } from "lucide-react";
+import { motion } from "framer-motion";
 import Navbar from "@/components/Navbar";
 import Disclaimer from "@/components/Disclaimer";
+import ScoreGauge from "@/components/ScoreGauge";
 import { simulateWhatIf, type ScoringResult, type EvidenceInput } from "@/lib/scoring";
 import { Slider } from "@/components/ui/slider";
 import { useAuth } from "@/contexts/AuthContext";
@@ -15,6 +17,13 @@ const recommendationStyle: Record<string, { bg: string; text: string }> = {
   REVISE: { bg: "bg-warning/15", text: "text-warning" },
   STOP: { bg: "bg-destructive/15", text: "text-destructive" },
 };
+
+const alternativeActions = [
+  { icon: Handshake, title: "Attempt Mediation", desc: "Resolve through a neutral mediator before litigation." },
+  { icon: FileText, title: "Send Formal Demand Notice", desc: "A legal notice may prompt resolution without court." },
+  { icon: MessageSquare, title: "Use Complaint Portal", desc: "File with consumer or labor complaint portals." },
+  { icon: Scale, title: "Negotiate Settlement", desc: "Direct negotiation can save time and legal fees." },
+];
 
 const Results = () => {
   const navigate = useNavigate();
@@ -37,7 +46,6 @@ const Results = () => {
     setSimComm(data.caseData?.evidenceCommunication ?? false);
   }, [navigate]);
 
-  // What-if simulation
   useEffect(() => {
     if (!result) return;
     const newEvidence: EvidenceInput = { contract: simContract, payment: simPayment, communication: simComm };
@@ -55,7 +63,6 @@ const Results = () => {
     setSimResult(sim);
   }, [simContract, simPayment, simComm, simLoss, result]);
 
-  // Save to DB
   const saveAnalysis = async () => {
     if (!user || !result || saved) return;
     await supabase.from("analyses").insert({
@@ -95,42 +102,41 @@ const Results = () => {
       <Navbar />
       <div className="pt-20 pb-16 px-6">
         <div className="max-w-4xl mx-auto">
-          <div className="mb-6">
+          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="mb-6">
             <h1 className="text-2xl font-semibold text-foreground mb-1">Analysis Results</h1>
             <p className="text-sm text-muted-foreground">Complete breakdown of your case analysis.</p>
-          </div>
+          </motion.div>
 
           <Disclaimer />
 
           {/* Score + Recommendation */}
           <div className="grid md:grid-cols-3 gap-4 mt-6">
-            <div className="enterprise-card text-center">
-              <p className="text-xs text-muted-foreground uppercase tracking-wider mb-2">Viability Score</p>
-              <p className="text-4xl font-bold text-foreground">{display.viabilityScore}</p>
-              <p className="text-xs text-muted-foreground mt-1">/100</p>
-            </div>
-            <div className="enterprise-card text-center">
+            <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.1 }} className="enterprise-card flex flex-col items-center justify-center">
+              <p className="text-xs text-muted-foreground uppercase tracking-wider mb-3">Viability Score</p>
+              <ScoreGauge score={display.viabilityScore} size={120} />
+            </motion.div>
+            <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.2 }} className="enterprise-card text-center flex flex-col items-center justify-center">
               <p className="text-xs text-muted-foreground uppercase tracking-wider mb-2">Recommendation</p>
-              <span className={`inline-block px-3 py-1 rounded-md text-sm font-semibold ${style.bg} ${style.text}`}>
+              <span className={`inline-block px-4 py-1.5 rounded-full text-sm font-semibold ${style.bg} ${style.text}`}>
                 {display.recommendation}
               </span>
-            </div>
-            <div className="enterprise-card text-center">
+            </motion.div>
+            <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.3 }} className="enterprise-card text-center flex flex-col items-center justify-center">
               <p className="text-xs text-muted-foreground uppercase tracking-wider mb-2">Confidence</p>
               <p className="text-lg font-semibold text-foreground capitalize">{display.confidenceLevel}</p>
               <p className="text-xs text-muted-foreground mt-1">Evidence: {display.evidenceLabel}</p>
-            </div>
+            </motion.div>
           </div>
 
           {/* Legal Summary */}
           <div className="enterprise-card mt-6">
-            <h2 className="text-sm font-semibold text-foreground mb-3">Legal Summary</h2>
+            <h2 className="text-sm font-semibold text-foreground mb-3">Legal Summary — Clara's Analysis</h2>
             <p className="text-sm text-muted-foreground leading-relaxed">{result.clerk.summary}</p>
           </div>
 
           {/* Risk Breakdown */}
           <div className="mt-6">
-            <h2 className="text-sm font-semibold text-foreground mb-3">Risk Breakdown</h2>
+            <h2 className="text-sm font-semibold text-foreground mb-3">Risk Breakdown — Lexor's Findings</h2>
             <div className="grid sm:grid-cols-2 gap-4">
               {Object.entries(result.devil.riskCategories).map(([key, level]) => {
                 const Icon = riskIcons[key] || AlertTriangle;
@@ -151,7 +157,7 @@ const Results = () => {
 
           {/* Scoring Visualization */}
           <div className="enterprise-card mt-6">
-            <h2 className="text-sm font-semibold text-foreground mb-4">Score Breakdown</h2>
+            <h2 className="text-sm font-semibold text-foreground mb-4">Score Breakdown — Verdicta's Scores</h2>
             {[
               { label: "Legal Strength", value: display.legalStrength },
               { label: "Evidence Strength", value: display.evidenceStrength },
@@ -162,14 +168,16 @@ const Results = () => {
                   <span className="text-muted-foreground">{item.label}</span>
                   <span className="text-foreground font-medium">{item.value}/100</span>
                 </div>
-                <div className="w-full h-1.5 rounded-full bg-secondary">
-                  <div
-                    className={`h-full rounded-full transition-all duration-500 ${
+                <div className="w-full h-1.5 rounded-full bg-accent">
+                  <motion.div
+                    className={`h-full rounded-full ${
                       item.invert
                         ? item.value > 60 ? "bg-destructive" : item.value > 30 ? "bg-warning" : "bg-success"
                         : item.value > 60 ? "bg-success" : item.value > 30 ? "bg-warning" : "bg-destructive"
                     }`}
-                    style={{ width: `${item.value}%` }}
+                    initial={{ width: 0 }}
+                    animate={{ width: `${item.value}%` }}
+                    transition={{ duration: 0.8, delay: 0.3 }}
                   />
                 </div>
               </div>
@@ -182,7 +190,7 @@ const Results = () => {
             <p className="text-sm text-muted-foreground leading-relaxed">{result.strategist.reasoning}</p>
           </div>
 
-          {/* Documents & Alternatives */}
+          {/* Documents & Risk Factors */}
           <div className="grid md:grid-cols-2 gap-4 mt-6">
             <div className="enterprise-card">
               <h2 className="text-sm font-semibold text-foreground mb-3">Required Documents</h2>
@@ -205,6 +213,24 @@ const Results = () => {
                   </li>
                 ))}
               </ul>
+            </div>
+          </div>
+
+          {/* Alternative Actions */}
+          <div className="mt-6">
+            <h2 className="text-sm font-semibold text-foreground mb-3">Alternative Actions</h2>
+            <div className="grid sm:grid-cols-2 gap-4">
+              {alternativeActions.map((action) => (
+                <div key={action.title} className="enterprise-card flex items-start gap-3">
+                  <div className="w-8 h-8 rounded-xl bg-primary-soft/50 flex items-center justify-center shrink-0">
+                    <action.icon className="w-4 h-4 text-primary" />
+                  </div>
+                  <div>
+                    <h3 className="text-xs font-semibold text-foreground">{action.title}</h3>
+                    <p className="text-xs text-muted-foreground">{action.desc}</p>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
 
@@ -246,7 +272,7 @@ const Results = () => {
 
           {/* CTA */}
           <div className="mt-8 text-center">
-            <Link to="/analyze" className="btn-primary text-xs py-2 px-5 inline-flex items-center gap-2">
+            <Link to="/analyze" className="btn-primary text-xs py-2.5 px-6 inline-flex items-center gap-2">
               Analyze Another Case
               <ArrowRight className="w-3.5 h-3.5" />
             </Link>

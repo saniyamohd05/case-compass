@@ -11,6 +11,7 @@ import Analyze from "./pages/Analyze";
 import Loading from "./pages/Loading";
 import Results from "./pages/Results";
 import Dashboard from "./pages/Dashboard";
+import VoiceAssistant from "./pages/VoiceAssistant";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -28,6 +29,7 @@ const App = () => (
             <Route path="/analyze" element={<Analyze />} />
             <Route path="/loading" element={<Loading />} />
             <Route path="/results" element={<Results />} />
+            <Route path="/voice" element={<VoiceAssistant />} />
             <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
             <Route path="*" element={<NotFound />} />
           </Routes>

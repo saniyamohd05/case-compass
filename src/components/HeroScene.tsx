@@ -3,7 +3,7 @@ import { Canvas, useFrame } from "@react-three/fiber";
 import { Float } from "@react-three/drei";
 import * as THREE from "three";
 
-function GlassCard({ position, rotation, scale = 1, color = "#3b82f6" }: { position: [number, number, number]; rotation: [number, number, number]; scale?: number; color?: string }) {
+function GlassCard({ position, rotation, scale = 1, color = "#8B6914" }: { position: [number, number, number]; rotation: [number, number, number]; scale?: number; color?: string }) {
   const meshRef = useRef<THREE.Mesh>(null);
 
   useFrame((state) => {
@@ -34,12 +34,12 @@ function GlassCard({ position, rotation, scale = 1, color = "#3b82f6" }: { posit
 function Scene() {
   return (
     <>
-      <ambientLight intensity={0.3} />
-      <pointLight position={[5, 5, 5]} intensity={0.5} color="#3b82f6" />
-      <pointLight position={[-5, -3, 3]} intensity={0.3} color="#8b5cf6" />
-      <GlassCard position={[-1.5, 0.5, 0]} rotation={[0.2, 0.3, 0]} color="#3b82f6" />
-      <GlassCard position={[1.5, -0.3, -1]} rotation={[-0.1, -0.4, 0]} scale={0.8} color="#8b5cf6" />
-      <GlassCard position={[0, 0.8, -2]} rotation={[0.1, 0.2, 0]} scale={0.6} color="#6366f1" />
+      <ambientLight intensity={0.4} />
+      <pointLight position={[5, 5, 5]} intensity={0.5} color="#D4A537" />
+      <pointLight position={[-5, -3, 3]} intensity={0.3} color="#A67C1A" />
+      <GlassCard position={[-1.5, 0.5, 0]} rotation={[0.2, 0.3, 0]} color="#8B6914" />
+      <GlassCard position={[1.5, -0.3, -1]} rotation={[-0.1, -0.4, 0]} scale={0.8} color="#A67C1A" />
+      <GlassCard position={[0, 0.8, -2]} rotation={[0.1, 0.2, 0]} scale={0.6} color="#D4A537" />
     </>
   );
 }
