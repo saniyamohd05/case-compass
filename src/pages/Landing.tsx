@@ -43,7 +43,7 @@ const Landing = () => {
               <p className="text-xs text-primary uppercase tracking-[0.2em] font-medium">AI-Powered Legal Decision Support</p>
             </div>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-semibold text-foreground tracking-tight leading-[1.1] mb-5">
-              Think Before<br />You Sue.
+              Think Before<br />You Are Sure.
             </h1>
             <p className="text-base text-muted-foreground max-w-md mb-8 leading-relaxed">
               ArguMind analyzes your case using 3 AI agents and tells you whether to fight, settle, or negotiate — before you spend time and money.
