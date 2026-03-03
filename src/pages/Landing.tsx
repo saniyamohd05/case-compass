@@ -46,7 +46,7 @@ const Landing = () => {
               Think Before<br />You Are Sure.
             </h1>
             <p className="text-base text-muted-foreground max-w-md mb-8 leading-relaxed">
-              ArguMind analyzes your case using 3 AI agents and tells you whether to fight, settle, or negotiate — before you spend time and money.
+              Judify analyzes your case using 3 AI agents and tells you whether to fight, settle, or negotiate — before you spend time and money.
             </p>
             <div className="flex flex-col sm:flex-row gap-3">
               <Link to="/analyze" className="btn-primary text-sm py-3 px-7 inline-flex items-center gap-2 justify-center">
@@ -211,9 +211,9 @@ const Landing = () => {
         <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-3 text-xs text-muted-foreground">
           <div className="flex items-center gap-1.5">
             <Shield className="w-3 h-3 text-primary" />
-            <span className="font-semibold text-foreground">ArguMind</span>
-          </div>
-          <p>© 2026 ArguMind. This is not legal advice. Decision support only.</p>
+             <span className="font-semibold text-foreground">Judify</span>
+           </div>
+           <p>© 2026 Judify. This is not legal advice. Decision support only.</p>
         </div>
       </footer>
     </div>

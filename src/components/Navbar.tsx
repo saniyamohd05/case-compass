@@ -14,7 +14,7 @@ const Navbar = () => {
           <div className="w-7 h-7 rounded-lg bg-primary flex items-center justify-center">
             <Shield className="w-3.5 h-3.5 text-primary-foreground" />
           </div>
-          <span className="text-sm font-semibold text-foreground tracking-tight">ArguMind</span>
+          <span className="text-sm font-semibold text-foreground tracking-tight">Judify</span>
         </Link>
 
         <div className="flex items-center gap-3">
