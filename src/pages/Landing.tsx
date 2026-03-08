@@ -211,7 +211,7 @@ const Landing = () => {
         <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-3 text-xs text-muted-foreground">
           <div className="flex items-center gap-1.5">
             <Shield className="w-3 h-3 text-primary" />
-             <span className="font-semibold text-foreground">Judify</span>
+             <span className="text-sm font-bold text-foreground tracking-tight">Judify</span>
            </div>
            <p>© 2026 Judify. This is not legal advice. Decision support only.</p>
         </div>
