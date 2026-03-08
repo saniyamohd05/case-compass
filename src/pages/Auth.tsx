@@ -37,7 +37,7 @@ const Auth = () => {
       if (error) {
         setError(error.message);
       } else {
-        setSuccess("Check your email to confirm your account.");
+        navigate("/dashboard");
       }
     }
     setLoading(false);
